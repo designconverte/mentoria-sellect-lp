@@ -252,20 +252,54 @@ h3{font-family:var(--font-serif);font-weight:600;font-size:clamp(21px,2.3vw,28px
 .cov p{margin:0;color:var(--fg-muted);font-size:clamp(15.5px,1.5vw,18px);line-height:1.62;font-weight:300}
 .cov p b{color:var(--fg);font-weight:600}
 
-/* Pillars */
-.pillars{display:grid;gap:clamp(16px,2vw,22px);grid-template-columns:1fr}
-@media (min-width:640px){.pillars{grid-template-columns:1fr 1fr}}
-@media (min-width:1000px){.pillars{grid-template-columns:repeat(4,1fr)}}
-.pcard{
-  position:relative;background:linear-gradient(180deg,var(--card),#0c0906);
-  border:1px solid var(--line);border-radius:var(--radius-lg);padding:clamp(24px,2.6vw,30px);
-  overflow:hidden;transition:transform .5s var(--ease),border-color .5s,box-shadow .5s;will-change:transform;
+/* Pillars — floating cards choreographed by scroll (FEATURE-001 adaptado à marca) */
+.pillars-sec{padding-block:0}
+.pl-stage{
+  position:relative;min-height:100vh;display:grid;place-items:center;
+  overflow:hidden;padding-block:clamp(80px,12vh,120px);
 }
-.pcard:hover{transform:translateY(-6px);border-color:var(--line-strong);box-shadow:0 30px 70px -40px rgba(0,0,0,.9),0 0 50px -28px var(--gold-glow)}
-.pcard .pn{font-family:var(--font-serif);font-size:clamp(40px,4.4vw,56px);font-weight:700;line-height:1;letter-spacing:-.02em;color:transparent;-webkit-text-stroke:1px var(--gold-deep)}
-.pcard:hover .pn{background:var(--gold-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:1px transparent}
-.pcard h3{margin:18px 0 12px;font-size:clamp(19px,1.9vw,22px)}
-.pcard p{margin:0;color:var(--fg-muted);font-size:15px;line-height:1.58;font-weight:300}
+.pl-stage::before{content:"";position:absolute;z-index:0;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:min(72vw,760px);aspect-ratio:1;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,var(--gold-glow),transparent 62%)}
+.pl-center{position:relative;z-index:1;max-width:880px;text-align:center;margin-inline:auto;padding-inline:var(--gutter)}
+.pl-center .eyebrow{margin-bottom:clamp(18px,2.4vw,26px)}
+.pl-title{
+  font-family:var(--font-serif);font-weight:700;color:var(--fg);
+  font-size:clamp(30px,5.2vw,62px);line-height:1.08;letter-spacing:-.014em;
+  margin:0 auto;max-width:15ch;
+}
+.pl-word{display:inline-block;opacity:1;will-change:opacity}
+.js-motion .pl-word{opacity:.22}
+.pl-sub{margin:clamp(18px,2.4vw,26px) auto 0;max-width:46ch;color:var(--fg-muted);font-weight:300;font-size:clamp(15px,1.4vw,17px);line-height:1.6}
+
+.pl-card{
+  position:absolute;top:var(--top);left:var(--left);z-index:3;
+  width:clamp(248px,23vw,348px);padding:26px 26px 30px;border-radius:30px;
+  background:var(--gold-grad);color:#1a1206;
+  box-shadow:0 30px 70px -22px rgba(0,0,0,.72),0 0 0 1px rgba(231,200,121,.4),inset 0 1px 0 rgba(255,255,255,.4);
+  will-change:transform,opacity;
+}
+.js-motion .pl-card{visibility:hidden}
+.pl-card .fc-kicker{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:rgba(26,18,6,.6)}
+.pl-card .fc-num{display:block;font-family:var(--font-serif);font-size:clamp(50px,5vw,66px);font-weight:700;line-height:.9;letter-spacing:-.02em;margin:4px 0 12px;color:#1a1206}
+.pl-card .fc-title{font-family:var(--font-serif);font-weight:700;font-size:clamp(19px,1.9vw,23px);line-height:1.16;margin:0 0 9px;color:#140e04}
+.pl-card .fc-text{margin:0;font-size:14px;line-height:1.5;font-weight:400;color:rgba(26,18,6,.78);max-width:30ch}
+.pl-card .fc-icon{position:absolute;top:24px;right:24px;width:26px;height:26px;color:#1a1206;opacity:.5}
+.pl-card .fc-icon svg{width:100%;height:100%;display:block}
+
+@media (max-width:1023px){.pl-card{width:clamp(240px,32vw,316px)}}
+@media (max-width:767px){
+  .pl-stage{min-height:auto;display:block;overflow:visible;padding-block:clamp(70px,14vw,96px)}
+  .pl-stage::before{display:none}
+  .pl-card{position:relative;top:auto;left:auto;width:min(86vw,420px);margin:22px auto 0}
+  .pl-card:first-of-type{margin-top:clamp(40px,9vw,56px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .pl-stage{min-height:auto;display:block;overflow:visible;padding-block:clamp(60px,9vw,90px)}
+  .pl-word{opacity:1!important}
+  .js-motion .pl-card{visibility:visible}
+  .pl-card{position:relative;top:auto!important;left:auto!important;width:min(92vw,440px);margin:16px auto 0;transform:none!important}
+}
 
 /* Mentor / Filipe */
 .mentor-grid{display:grid;gap:clamp(34px,5vw,64px);grid-template-columns:1fr;align-items:center}
@@ -533,19 +567,48 @@ form.loading .btn{opacity:.6;pointer-events:none}
   </div>
 </section>
 
-<!-- PILLARS -->
+<!-- PILLARS — floating cards choreographed by scroll (FEATURE-001) -->
 <section class="pillars-sec" id="pilares" aria-labelledby="pillars-title">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow reveal">Os 4 pilares</p>
-      <h2 id="pillars-title" class="reveal">A estrutura completa de uma<br>empresa de limpeza <span class="gold serif-i">premium</span>.</h2>
+  <div class="pl-stage" id="pl-stage">
+    <div class="pl-center">
+      <p class="eyebrow">Os 4 pilares</p>
+      <h2 id="pillars-title" class="pl-title">
+        <span class="pl-word">A</span> <span class="pl-word">estrutura</span> <span class="pl-word">completa</span> <span class="pl-word">de</span> <span class="pl-word">uma</span> <span class="pl-word">empresa</span> <span class="pl-word">de</span> <span class="pl-word">limpeza</span> <span class="pl-word gold serif-i">premium.</span>
+      </h2>
+      <p class="pl-sub">Quatro frentes que transformam uma operação de limpeza em um negócio premium — não um emprego que você mesma criou.</p>
     </div>
-    <div class="pillars">
-      <article class="pcard reveal"><div class="pn">01</div><h3>Engrenagens do Business</h3><p>A estrutura por trás de uma empresa que funciona sem depender de você dentro da casa. Operação, agenda e processos pra que o negócio rode — e cresça — em vez de te consumir.</p></article>
-      <article class="pcard reveal"><div class="pn">02</div><h3>Expert em Vendas</h3><p>Onde o Método COV ganha vida. Vender o serviço pelo valor que ele entrega, conduzir o cliente até o "sim" e nunca mais travar na hora de falar o preço.</p></article>
-      <article class="pcard reveal"><div class="pn">03</div><h3>A Chave de Ouro</h3><p>O diferencial que separa a empresa premium da que disputa por centavos. O posicionamento que faz o cliente escolher você — mesmo cobrando mais que a concorrência.</p></article>
-      <article class="pcard reveal"><div class="pn">04</div><h3>Posicionamento e Plataformas</h3><p>Como aparecer, ser encontrada e ser percebida como a opção premium da sua região. Onde estar, como se mostrar e como atrair os clientes que pagam o que você merece.</p></article>
-    </div>
+
+    <article class="pl-card" data-pl-card style="--top:15%;--left:27%">
+      <span class="fc-kicker">Pilar</span>
+      <strong class="fc-num">01</strong>
+      <h3 class="fc-title">Engrenagens do Business</h3>
+      <p class="fc-text">A estrutura por trás de uma empresa que roda — e cresce — sem depender de você dentro da casa.</p>
+      <span class="fc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 13.5a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span>
+    </article>
+
+    <article class="pl-card" data-pl-card style="--top:40%;--left:73%">
+      <span class="fc-kicker">Pilar</span>
+      <strong class="fc-num">02</strong>
+      <h3 class="fc-title">Expert em Vendas</h3>
+      <p class="fc-text">Onde o Método COV ganha vida: conduzir o cliente até o “sim” e nunca mais travar na hora do preço.</p>
+      <span class="fc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 13.42 20.58a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.3"/></svg></span>
+    </article>
+
+    <article class="pl-card" data-pl-card style="--top:58%;--left:26%">
+      <span class="fc-kicker">Pilar</span>
+      <strong class="fc-num">03</strong>
+      <h3 class="fc-title">A Chave de Ouro</h3>
+      <p class="fc-text">O posicionamento que faz o cliente escolher você — mesmo cobrando mais que a concorrência.</p>
+      <span class="fc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.6 17.4A2 2 0 0 0 2 18.83V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.17a2 2 0 0 0 1.42-.59l.8-.8a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".6" fill="currentColor"/></svg></span>
+    </article>
+
+    <article class="pl-card" data-pl-card style="--top:84%;--left:74%">
+      <span class="fc-kicker">Pilar</span>
+      <strong class="fc-num">04</strong>
+      <h3 class="fc-title">Posicionamento e Plataformas</h3>
+      <p class="fc-text">Como ser encontrada e percebida como a opção premium da sua região — e atrair quem paga.</p>
+      <span class="fc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+    </article>
   </div>
 </section>
 
@@ -888,10 +951,48 @@ form.loading .btn{opacity:.6;pointer-events:none}
 
     gsap.utils.toArray('[data-count]').forEach(function(el){ animateCount(el, gsap); });
 
-    gsap.utils.toArray('.pcard').forEach(function(card,i){
-      gsap.to(card, {yPercent:-(4+i*3), ease:'none',
-        scrollTrigger:{trigger:'.pillars-sec', start:'top bottom', end:'bottom top', scrub:1}});
-    });
+    /* Pillars — floating cards choreographed by scroll (FEATURE-001) */
+    (function(){
+      var plStage = document.getElementById('pl-stage');
+      if(!plStage) return;
+      var plCards = gsap.utils.toArray('#pl-stage [data-pl-card]');
+      var plWords = gsap.utils.toArray('#pl-stage .pl-word');
+      if(!plCards.length) return;
+      var mm = gsap.matchMedia();
+
+      mm.add({isDesktop:'(min-width:1024px)', isTablet:'(min-width:768px) and (max-width:1023px)'}, function(ctx){
+        var amp = ctx.conditions.isTablet ? 0.72 : 1;
+        var vw = function(){ return window.innerWidth; };
+        var STAGGER=0.9, ENTER=0.62, HOLD=0.32, EXIT=0.55;
+        var tl = gsap.timeline({
+          defaults:{ease:'power2.out'},
+          scrollTrigger:{trigger:'.pillars-sec', start:'top top', end:'+=320%', scrub:1, pin:'#pl-stage', anticipatePin:1, invalidateOnRefresh:true}
+        });
+        if(plWords.length) tl.to(plWords, {opacity:1, ease:'none', duration:1.4, stagger:{each:0.1}}, 0);
+        plCards.forEach(function(card,i){
+          var fromLeft = i % 2 === 0;
+          var dir = fromLeft ? -1 : 1;
+          var start = 0.7 + i*STAGGER;
+          gsap.set(card, {xPercent:-50, yPercent:-50});
+          tl.fromTo(card,
+            {x:function(){return dir*1.15*vw()*amp;}, rotation:fromLeft?-6:6, autoAlpha:0, scale:.9},
+            {x:0, rotation:fromLeft?-2:2, autoAlpha:1, scale:1, duration:ENTER}, start)
+            .to(card,
+            {x:function(){return dir*1.2*vw()*amp;}, rotation:fromLeft?-7:7, autoAlpha:0, scale:.96, ease:'power2.in', duration:EXIT}, start+ENTER+HOLD);
+        });
+      });
+
+      mm.add('(max-width:767px)', function(){
+        if(plWords.length) gsap.to(plWords, {opacity:1, ease:'none', stagger:0.05,
+          scrollTrigger:{trigger:'.pl-center', start:'top 82%', end:'top 42%', scrub:true}});
+        plCards.forEach(function(card,i){
+          gsap.fromTo(card,
+            {autoAlpha:0, x:i%2===0?-44:44, y:42, scale:.96},
+            {autoAlpha:1, x:0, y:0, scale:1, ease:'none',
+             scrollTrigger:{trigger:card, start:'top 92%', end:'top 58%', scrub:true}});
+        });
+      });
+    })();
 
     gsap.utils.toArray('.mentor-fig img, .recv-aside img').forEach(function(img){
       gsap.fromTo(img, {yPercent:-4}, {yPercent:4, ease:'none',
